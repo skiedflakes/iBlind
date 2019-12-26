@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.Login.Login"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="#ffff">
 
     <!-- TODO: Update blank fragment layout -->
   <LinearLayout
