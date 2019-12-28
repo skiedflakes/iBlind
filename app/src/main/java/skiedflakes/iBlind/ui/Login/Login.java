@@ -61,6 +61,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Log.e("test",response);
+                response = response.replaceAll("\\D+","");
                 if(response.equals("1")){
 
                     Intent myIntent = new Intent(Login.this, MainActivity.class);
