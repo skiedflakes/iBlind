@@ -12,7 +12,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import skiedflakes.iBlind.ui.Login.Login;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView navView;
@@ -20,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -34,18 +31,32 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-
-        Login login = new Login();
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.container, login);
-        fragmentTransaction.commit();
-        navView.setVisibility(View.GONE);
+//        Login login = new Login();
+//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.replace(R.id.container, login);
+//        fragmentTransaction.commit();
     }
 
-    public void nav_view(){
 
-        navView.setVisibility(View.GONE);
+    public void init_menu(){
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
