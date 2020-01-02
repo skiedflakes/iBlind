@@ -1,9 +1,14 @@
 package skiedflakes.iBlind.ui.Login;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -53,6 +58,7 @@ public class Login extends AppCompatActivity {
               
             }
         });
+
     }
 
     private void get_events(final String username,final String password) {
@@ -95,5 +101,7 @@ public class Login extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(stringRequest);
         AppController.getInstance().setVolleyDuration(stringRequest);
     }
+
+
 
 }
