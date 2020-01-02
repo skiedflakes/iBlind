@@ -46,7 +46,8 @@ public class SessionManager {
      * */
     public void createLoginSession(String name,String user_type){
 
-
+        // Storing login value as TRUE
+        editor.putBoolean(IS_LOGIN, true);
         // Storing email in pref
         editor.putString(KEY_NAME, name);
         // Storing branch id
