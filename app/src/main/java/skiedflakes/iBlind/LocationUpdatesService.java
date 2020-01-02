@@ -232,7 +232,7 @@ public class LocationUpdatesService extends Service {
 
     /**
      * Removes location updates. Note that in this sample we merely log the
-     * {@link SecurityException}.
+     * {@link SecurityException}
      */
     public void removeLocationUpdates() {
         Log.i(TAG, "Removing location updates");
@@ -309,7 +309,8 @@ public class LocationUpdatesService extends Service {
 
 
 
-        Double dist = calculateDistance(get_lat(mLocation),get_lon(mLocation),get_lat(location),get_lon(location),"M");
+        Double dist = calculateDistance(get_lat(mLocation),get_lon(mLocation),
+                get_lat(location),get_lon(location),"K");
         Log.e(TAG, "New distance: " + dist);
         mLocation = location;
 
