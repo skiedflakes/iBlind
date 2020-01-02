@@ -49,11 +49,10 @@ public class Login extends AppCompatActivity {
                 String username = et_username.getText().toString();
                 String password = et_password.getText().toString();
 
-
                 if(username.equals("")||password.equals("")){
                     Toast.makeText(Login.this, "Please fill up required fields.", Toast.LENGTH_SHORT).show();
                 }else{
-                    get_events(username,password);
+                    login(username,password);
                 }
               
             }
@@ -61,7 +60,7 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void get_events(final String username,final String password) {
+    private void login(final String username,final String password) {
         String URL = getString(R.string.URL)+"login.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override

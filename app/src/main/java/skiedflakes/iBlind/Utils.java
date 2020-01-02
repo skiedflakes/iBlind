@@ -43,6 +43,14 @@ public class Utils {
                 "(" + location.getLatitude() + ", " + location.getLongitude() + ")";
     }
 
+    public static Double get_lat(Location location) {
+
+        return location.getLatitude();
+    }
+    public static Double get_lon(Location location) {
+
+        return location.getLongitude();
+    }
     static String getLocationTitle(Context context) {
         return context.getString(R.string.location_updated,
                 DateFormat.getDateTimeInstance().format(new Date()));
