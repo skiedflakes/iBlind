@@ -20,7 +20,13 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -28,6 +34,9 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static skiedflakes.iBlind.Utils.get_lat;
 import static skiedflakes.iBlind.Utils.get_lon;
@@ -118,6 +127,8 @@ public class LocationUpdatesService extends Service {
     public LocationUpdatesService() {
     }
 
+    SessionManager session;
+    String user_id;
     @Override
     public void onCreate() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -148,6 +159,8 @@ public class LocationUpdatesService extends Service {
             // Set the Notification Channel for the Notification Manager.
             mNotificationManager.createNotificationChannel(mChannel);
         }
+
+        session = new SessionManager(getApplicationContext());
     }
 
     @Override
@@ -155,6 +168,10 @@ public class LocationUpdatesService extends Service {
         Log.i(TAG, "Service started");
         boolean startedFromNotification = intent.getBooleanExtra(EXTRA_STARTED_FROM_NOTIFICATION,
                 false);
+
+        session = new SessionManager(getBaseContext().getApplicationContext());
+        HashMap<String, String> user_account = session.getUserDetails();
+        user_id = user_account.get(SessionManager.KEY_USER_ID);
 
         // We got here because the user decided to remove location updates from the notification.
         if (startedFromNotification) {
@@ -305,14 +322,26 @@ public class LocationUpdatesService extends Service {
     }
 
     private void onNewLocation(Location location) {
-        Log.e(TAG, "New location: " + location);
+       Log.e(TAG, "New location: " + location);
 
 
+        try{
 
-        Double dist = calculateDistance(get_lat(mLocation),get_lon(mLocation),
-                get_lat(location),get_lon(location),"K");
-        Log.e(TAG, "New distance: " + dist);
-        mLocation = location;
+            Double dist = calculateDistance(get_lat(mLocation),get_lon(mLocation),
+                    get_lat(location),get_lon(location),"K");
+//            Log.e("test distance / user id",dist +" / "+user_id);
+            if(dist>0.030){
+                save_location(user_id,Utils.convert_loc(location));
+            }else{
+
+            }
+
+          //  save_location(user_id,Utils.convert_loc(location));
+
+            Log.e(TAG, "New distance: " + dist);
+            mLocation = location;
+        }catch (Exception e){}
+
 
 
         // Notify anyone listening for broadcasts about the new location.
@@ -391,5 +420,38 @@ public class LocationUpdatesService extends Service {
             }
         }
         return false;
+    }
+
+
+    private void save_location(final String user_id,final String location) {
+        String URL = getString(R.string.URL)+"save_gps_logs.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.e(TAG, "New distance: " + response);
+
+
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                try {
+
+                }catch (Exception e){}
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> hashMap = new HashMap<>();
+                hashMap.put("user_id", user_id);
+                hashMap.put("gps_location", location);
+                return hashMap;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(stringRequest);
+        AppController.getInstance().setVolleyDuration(stringRequest);
     }
 }

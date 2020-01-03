@@ -31,7 +31,7 @@ public class SessionManager {
 
     // Email address (make variable public to access from outside)
     public static final String KEY_NAME = "name";
-
+    public static final String KEY_USER_ID = "user_id";
     public static final String KEY_USER_TYPE = "user_type";
 
     // Constructor
@@ -44,7 +44,7 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String name,String user_type){
+    public void createLoginSession(String name,String user_type,String user_id){
 
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
@@ -53,6 +53,7 @@ public class SessionManager {
         // Storing branch id
         editor.putString(KEY_USER_TYPE, user_type);
 
+        editor.putString(KEY_USER_ID, user_id);
         // commit changes
         editor.commit();
     }
@@ -93,6 +94,9 @@ public class SessionManager {
 
         //user type
         user.put(KEY_USER_TYPE, pref.getString(KEY_USER_TYPE, null));
+
+        //user type
+        user.put(KEY_USER_ID, pref.getString(KEY_USER_ID, null));
 
         // return user
         return user;

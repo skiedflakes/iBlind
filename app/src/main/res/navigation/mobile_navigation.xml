@@ -14,12 +14,12 @@
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="skiedflakes.iBlind.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
+        android:label="Map"
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="skiedflakes.iBlind.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
+        android:label="Connect Device"
         tools:layout="@layout/fragment_notifications" />
 </navigation>

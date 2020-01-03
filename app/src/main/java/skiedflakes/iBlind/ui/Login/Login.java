@@ -87,10 +87,10 @@ public class Login extends AppCompatActivity {
                     JSONObject jsonObject1 = (JSONObject)jsonArray.get(0);
                     String name= jsonObject1.getString("name");
                     String user_type=   jsonObject1.getString("user_type");
+                    String user_id =   jsonObject1.getString("user_id");
+                    if(user_type.equals("1")||user_type.equals("2")||user_type.equals("0")){
 
-                    if(user_type.equals("1")||user_type.equals("2")){
-
-                        session.createLoginSession(name,user_type);
+                        session.createLoginSession(name,user_type,user_id);
 
                         Intent myIntent = new Intent(Login.this, MainActivity.class);
 
@@ -101,6 +101,7 @@ public class Login extends AppCompatActivity {
                         finish();
 
                     }else{
+                        btn_login.setEnabled(true);
                         Toast.makeText(Login.this, "Invalid User", Toast.LENGTH_SHORT).show();
                     }
 
@@ -114,6 +115,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try {
+                    btn_login.setEnabled(true);
                     Toast.makeText(Login.this, "Error! Something went wrong.", Toast.LENGTH_SHORT).show();
                 }catch (Exception e){}
             }

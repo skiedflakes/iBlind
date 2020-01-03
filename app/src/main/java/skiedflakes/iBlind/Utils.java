@@ -43,6 +43,11 @@ public class Utils {
                 "(" + location.getLatitude() + ", " + location.getLongitude() + ")";
     }
 
+    public static String convert_loc(Location location) {
+        return location == null ? "Unknown location" :
+               location.getLatitude() + "," + location.getLongitude() ;
+    }
+
     public static Double get_lat(Location location) {
 
         return location.getLatitude();

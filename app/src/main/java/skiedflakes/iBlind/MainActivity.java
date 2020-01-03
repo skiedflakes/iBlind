@@ -17,6 +17,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,13 +34,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.HashMap;
+
 
 public class MainActivity extends AppCompatActivity  implements
         SharedPreferences.OnSharedPreferenceChangeListener{
     LocationManager locationManager;
     BottomNavigationView navView;
     Button btn_start,btn_stop;
-
+    SessionManager session;
     //service
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -80,15 +83,9 @@ public class MainActivity extends AppCompatActivity  implements
        // myReceiver = new MyReceiver();
         navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
+        session = new SessionManager(getApplicationContext());
 
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
-
+        init_previleges();
 
 
         // Check that the user hasn't revoked permissions by going to Settings.
@@ -99,6 +96,33 @@ public class MainActivity extends AppCompatActivity  implements
         }
 
     }
+
+    String user_type;
+    public void init_previleges(){
+        // menu should be considered as top level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
+                .build();
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+
+        session = new SessionManager(getBaseContext().getApplicationContext());
+        HashMap<String, String> user_account = session.getUserDetails();
+        user_type = user_account.get(SessionManager.KEY_USER_TYPE);
+
+
+        if(user_type.equals("1")){
+            Menu nav_Menu = navView.getMenu();
+            nav_Menu.findItem(R.id.navigation_dashboard).setVisible(false);
+
+
+        }else if(user_type.equals("2")){
+            Menu nav_Menu = navView.getMenu();
+            nav_Menu.findItem(R.id.navigation_notifications).setVisible(false);
+        }
+    }
+
 
     public void start(){
         if (!checkPermissions()) {
