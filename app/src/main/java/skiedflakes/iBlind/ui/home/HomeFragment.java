@@ -21,9 +21,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.util.HashMap;
+
 import skiedflakes.iBlind.LocationUpdatesService;
 import skiedflakes.iBlind.MainActivity;
 import skiedflakes.iBlind.R;
+import skiedflakes.iBlind.SessionManager;
 import skiedflakes.iBlind.Utils;
 
 public class HomeFragment extends Fragment {
@@ -31,6 +34,9 @@ public class HomeFragment extends Fragment {
     private MyReceiver myReceiver;
     private HomeViewModel homeViewModel;
     Button btn_start;
+    SessionManager session;
+    String user_type;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +58,19 @@ public class HomeFragment extends Fragment {
                 ((MainActivity)getActivity()).start();
             }
         });
+
+        session = new SessionManager(getActivity());
+        session = new SessionManager(getActivity().getApplicationContext());
+        HashMap<String, String> user_account = session.getUserDetails();
+        user_type = user_account.get(SessionManager.KEY_USER_TYPE);
+
+        if(user_type.equals("1")){ //blind
+            btn_start.setVisibility(View.VISIBLE);
+        }else if(user_type.equals("2")){ //relative
+            btn_start.setVisibility(View.GONE);
+        }
+
+
         return root;
     }
 
