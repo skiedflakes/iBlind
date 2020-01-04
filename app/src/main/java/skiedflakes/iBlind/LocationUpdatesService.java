@@ -324,8 +324,6 @@ public class LocationUpdatesService extends Service {
 
     private void onNewLocation(Location location) {
        Log.e(TAG, "New location: " + location);
-
-
         try{
 
             Double dist = calculateDistance(get_lat(mLocation),get_lon(mLocation),
