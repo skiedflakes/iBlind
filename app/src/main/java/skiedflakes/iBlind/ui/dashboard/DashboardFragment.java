@@ -56,7 +56,7 @@ public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
     Fragment map_frag;
     static String selected_date="";
 
-    Button btn_find,btn_date;
+    static Button btn_find,btn_date;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
@@ -204,7 +204,7 @@ public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
             String date = String.valueOf(year) + "-" + String.valueOf(formatter.format(month)) + "-" + String.valueOf(dayOfMonth);
             Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
             selected_date = date;
-
+            btn_date.setText(date);
         }
     }
 }

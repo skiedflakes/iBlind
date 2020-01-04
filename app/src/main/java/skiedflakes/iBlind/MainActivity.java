@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity  implements
         }
     }
 
-
     public void start(){
         if (!checkPermissions()) {
                     requestPermissions();
