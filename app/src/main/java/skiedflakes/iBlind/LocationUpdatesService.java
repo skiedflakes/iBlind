@@ -98,6 +98,7 @@ public class LocationUpdatesService extends Service {
      * orientation change. We create a foreground service notification only if the former takes
      * place.
      */
+
     private boolean mChangingConfiguration = false;
 
     private NotificationManager mNotificationManager;
