@@ -33,7 +33,7 @@ public class HomeFragment extends Fragment {
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
     private HomeViewModel homeViewModel;
-    Button btn_start;
+    Button btn_start,btn_stop;
     SessionManager session;
     String user_type;
 
@@ -52,6 +52,14 @@ public class HomeFragment extends Fragment {
         });
         myReceiver = new MyReceiver();
         btn_start = root.findViewById(R.id.btn_start);
+        btn_stop = root.findViewById(R.id.btn_stop);
+
+        btn_stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).stop();
+            }
+        });
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,8 +74,10 @@ public class HomeFragment extends Fragment {
 
         if(user_type.equals("1")){ //blind
             btn_start.setVisibility(View.VISIBLE);
+            btn_stop.setVisibility(View.VISIBLE);
         }else if(user_type.equals("2")){ //relative
             btn_start.setVisibility(View.GONE);
+            btn_stop.setVisibility(View.GONE);
         }
 
 
