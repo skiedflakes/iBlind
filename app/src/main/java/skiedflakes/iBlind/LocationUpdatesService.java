@@ -342,8 +342,6 @@ public class LocationUpdatesService extends Service {
             mLocation = location;
         }catch (Exception e){}
 
-
-
         // Notify anyone listening for broadcasts about the new location.
         Intent intent = new Intent(ACTION_BROADCAST);
         intent.putExtra(EXTRA_LOCATION, location);
@@ -422,7 +420,6 @@ public class LocationUpdatesService extends Service {
         return false;
     }
 
-
     private void save_location(final String user_id,final String location) {
         String URL = getString(R.string.URL)+"save_gps_logs.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -430,9 +427,6 @@ public class LocationUpdatesService extends Service {
             public void onResponse(String response) {
 
                 Log.e(TAG, "New distance: " + response);
-
-
-
 
             }
         }, new Response.ErrorListener() {
