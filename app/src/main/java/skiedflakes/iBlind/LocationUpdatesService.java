@@ -22,6 +22,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.ahmedabdelmeged.bluetoothmc.BluetoothMC;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -124,10 +125,13 @@ public class LocationUpdatesService extends Service {
      * The current location.
      */
     private Location mLocation;
+    Globals globals;
+
 
     public LocationUpdatesService() {
     }
 
+    Boolean get_first = false;
     SessionManager session;
     String user_id;
     @Override
@@ -179,6 +183,14 @@ public class LocationUpdatesService extends Service {
             removeLocationUpdates();
             stopSelf();
         }
+
+        globals.bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
+            @Override
+            public void onDataReceived(String data) {
+
+            }
+        });
+
         // Tells the system to not try to recreate the service after it has been killed.
         return START_NOT_STICKY;
     }
@@ -323,11 +335,13 @@ public class LocationUpdatesService extends Service {
     }
 
     private void onNewLocation(Location location) {
-      Log.e(TAG, "New location: " + location);
         try{
+            if(!get_first){
+                save_location(user_id,Utils.convert_loc(location));
+            }
             Double dist = calculateDistance(get_lat(mLocation),get_lon(mLocation),
                     get_lat(location),get_lon(location),"K");
-//            Log.e("test distance / user id",dist +" / "+user_id);
+            Log.e("test distance / user id",dist +" / "+user_id);
             if(dist>0.030){
                 save_location(user_id,Utils.convert_loc(location));
             }else{
@@ -338,7 +352,9 @@ public class LocationUpdatesService extends Service {
 
            // Log.e(TAG, "New distance: " + dist);
             mLocation = location;
-        }catch (Exception e){}
+        }catch (Exception e){
+
+        }
 
         // Notify anyone listening for broadcasts about the new location.
         Intent intent = new Intent(ACTION_BROADCAST);
@@ -423,8 +439,10 @@ public class LocationUpdatesService extends Service {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-              //  Log.e(TAG, "response save: " + response);
+                if(!get_first){
+                    get_first = true;
+                }
+               Log.e(TAG, "response save: " + response);
 
             }
         }, new Response.ErrorListener() {
@@ -446,4 +464,5 @@ public class LocationUpdatesService extends Service {
         AppController.getInstance().addToRequestQueue(stringRequest);
         AppController.getInstance().setVolleyDuration(stringRequest);
     }
+
 }

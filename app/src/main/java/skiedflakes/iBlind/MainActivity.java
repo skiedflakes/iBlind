@@ -1,6 +1,7 @@
 package skiedflakes.iBlind;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -23,6 +24,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.ahmedabdelmeged.bluetoothmc.BluetoothMC;
+import com.ahmedabdelmeged.bluetoothmc.ui.BluetoothDevices;
+import com.ahmedabdelmeged.bluetoothmc.util.BluetoothStates;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -286,6 +290,63 @@ public class MainActivity extends AppCompatActivity  implements
            // setButtonsState(sharedPreferences.getBoolean(Utils.KEY_REQUESTING_LOCATION_UPDATES,
             //        false));
         }
+    }
+    BluetoothMC bluetoothMC;
+
+    public void start_connection(){
+
+         bluetoothMC = new BluetoothMC();
+        if (! bluetoothMC.isBluetoothAvailable()) {
+            //do any action if the bluetooth is not available
+        }else if (! bluetoothMC.isBluetoothEnabled()) {
+            Toast.makeText(MainActivity.this, "Enabling Bluetooth", Toast.LENGTH_SHORT).show();
+            bluetoothMC.enableBluetooth();
+            Intent intent = new Intent(MainActivity.this, BluetoothDevices.class);
+            startActivityForResult(intent, BluetoothStates.REQUEST_CONNECT_DEVICE);
+        }
+
+        bluetoothMC.setOnBluetoothConnectionListener(new BluetoothMC.BluetoothConnectionListener() {
+            @Override
+            public void onDeviceConnecting() {
+                //this method triggered during the connection processes
+            }
+
+            @Override
+            public void onDeviceConnected() {
+                //this method triggered if the connection success
+                Log.e("device is connected","nc one");
+                bluetoothMC.send("1");
+            }
+
+            @Override
+            public void onDeviceDisconnected() {
+                //this method triggered if the device disconnected
+                Log.e("device is disconnected","sad");
+            }
+
+            @Override
+            public void onDeviceConnectionFailed() {
+                //this method triggered if the connection failed
+            }
+        });
+
+        bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
+            @Override
+            public void onDataReceived(String data) {
+                Toast.makeText(mService, data, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == BluetoothStates.REQUEST_CONNECT_DEVICE) {
+            if (resultCode == Activity.RESULT_OK) {
+                bluetoothMC.connect(data);
+            }
+        }
+
     }
 
 //    private void setButtonsState(boolean requestingLocationUpdates) {
