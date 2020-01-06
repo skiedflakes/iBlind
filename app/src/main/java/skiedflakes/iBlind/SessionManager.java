@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import java.util.HashMap;
 
+import skiedflakes.iBlind.ui.Login.Login;
+
 
 public class SessionManager {
     // Shared Preferences
@@ -106,20 +108,21 @@ public class SessionManager {
      * Clear session details
      * */
     public void logoutUser(){
-//        // Clearing all data from Shared Preferences
-//        editor.clear();
-//        editor.commit();
-//
-//        // After logout redirect user to Loging Activity
-//        Intent i = new Intent(_context, Login.class);
-//        // Closing all the Activities
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//
-//        // Add new Flag to start new Activity
-//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//        // Staring Login Activity
-//        _context.startActivity(i);
+        // Clearing all data from Shared Preferences
+        editor.clear();
+        editor.commit();
+
+        // After logout redirect user to Loging Activity
+        Intent i = new Intent(_context, Login.class);
+        // Closing all the Activities
+
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        // Add new Flag to start new Activity
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        // Staring Login Activity
+        _context.startActivity(i);
     }
 
     /**

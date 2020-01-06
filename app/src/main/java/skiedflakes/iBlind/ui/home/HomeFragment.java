@@ -1,5 +1,6 @@
 package skiedflakes.iBlind.ui.home;
 
+import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,12 +29,13 @@ import skiedflakes.iBlind.MainActivity;
 import skiedflakes.iBlind.R;
 import skiedflakes.iBlind.SessionManager;
 import skiedflakes.iBlind.Utils;
+import skiedflakes.iBlind.ui.Login.Login;
 
 public class HomeFragment extends Fragment {
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
     private HomeViewModel homeViewModel;
-    Button btn_start,btn_stop;
+    Button btn_start,btn_stop,btn_logout;
     SessionManager session;
     String user_type;
 
@@ -53,6 +55,7 @@ public class HomeFragment extends Fragment {
         myReceiver = new MyReceiver();
         btn_start = root.findViewById(R.id.btn_start);
         btn_stop = root.findViewById(R.id.btn_stop);
+        btn_logout =  root.findViewById(R.id.btn_logout);
 
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,13 +67,25 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 ((MainActivity)getActivity()).start();
+
             }
         });
+
 
         session = new SessionManager(getActivity());
         session = new SessionManager(getActivity().getApplicationContext());
         HashMap<String, String> user_account = session.getUserDetails();
         user_type = user_account.get(SessionManager.KEY_USER_TYPE);
+
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ((MainActivity)getActivity()).stop();
+                ((MainActivity)getActivity()).logout();
+            }
+        });
+
 
         if(user_type.equals("1")){ //blind
             btn_start.setVisibility(View.VISIBLE);

@@ -1,6 +1,7 @@
 package skiedflakes.iBlind;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -35,6 +36,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import java.util.HashMap;
+
+import skiedflakes.iBlind.ui.Login.Login;
 
 
 public class MainActivity extends AppCompatActivity  implements
@@ -171,6 +174,11 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
 
+    public void logout(){
+
+        session.logoutUser();
+        finish();
+    }
 
     @Override
     protected void onStop() {

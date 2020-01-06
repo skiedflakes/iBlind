@@ -1,4 +1,4 @@
-package skiedflakes.iBlind.ui.notifications;
+package skiedflakes.iBlind;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

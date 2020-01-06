@@ -171,7 +171,7 @@ public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
         // Zoom in, animating the camera.
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         // Zoom out to zoom level 10, animating with a duration of 2 seconds.
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15), 1000, null);
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {

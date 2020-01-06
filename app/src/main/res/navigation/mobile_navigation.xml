@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="skiedflakes.iBlind.ui.notifications.NotificationsFragment"
+        android:name="skiedflakes.iBlind.DevicesFragment"
         android:label="Connect Device"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/device_list_header" />
 </navigation>
