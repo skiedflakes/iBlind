@@ -323,9 +323,8 @@ public class LocationUpdatesService extends Service {
     }
 
     private void onNewLocation(Location location) {
-       Log.e(TAG, "New location: " + location);
+      Log.e(TAG, "New location: " + location);
         try{
-
             Double dist = calculateDistance(get_lat(mLocation),get_lon(mLocation),
                     get_lat(location),get_lon(location),"K");
 //            Log.e("test distance / user id",dist +" / "+user_id);
@@ -335,9 +334,9 @@ public class LocationUpdatesService extends Service {
 
             }
 
-          //  save_location(user_id,Utils.convert_loc(location));
+           //save_location(user_id,Utils.convert_loc(location));
 
-            Log.e(TAG, "New distance: " + dist);
+           // Log.e(TAG, "New distance: " + dist);
             mLocation = location;
         }catch (Exception e){}
 
@@ -425,7 +424,7 @@ public class LocationUpdatesService extends Service {
             @Override
             public void onResponse(String response) {
 
-                Log.e(TAG, "New distance: " + response);
+              //  Log.e(TAG, "response save: " + response);
 
             }
         }, new Response.ErrorListener() {
