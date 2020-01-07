@@ -6,10 +6,34 @@
     tools:context=".ui.Connect_Device.Connect_Device_main">
 
     <!-- TODO: Update blank fragment layout -->
-   <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"> <Button
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:text="Connect"
        android:id="@+id/btn_connect"/>
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="status: "
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/tv_device"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Device: "
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="20dp"/>
+
+
+    </LinearLayout>
 
 </FrameLayout>

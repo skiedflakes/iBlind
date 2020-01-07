@@ -58,7 +58,7 @@ import static skiedflakes.iBlind.Utils.requestingLocationUpdates;
  * notification assocaited with that service is removed.
  */
 public class LocationUpdatesService extends Service {
-
+    BluetoothMC bluetoothMC;
     private static final String PACKAGE_NAME =
             "com.google.android.gms.location.sample.locationupdatesforegroundservice";
 
@@ -184,12 +184,7 @@ public class LocationUpdatesService extends Service {
             stopSelf();
         }
 
-        globals.bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
-            @Override
-            public void onDataReceived(String data) {
 
-            }
-        });
 
         // Tells the system to not try to recreate the service after it has been killed.
         return START_NOT_STICKY;
@@ -247,7 +242,18 @@ public class LocationUpdatesService extends Service {
      * Makes a request for location updates. Note that in this sample we merely log the
      * {@link SecurityException}.
      */
-    public void requestLocationUpdates() {
+
+
+    public void requestLocationUpdates(BluetoothMC bluetooth) {
+        bluetoothMC = bluetooth;
+
+        bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
+            @Override
+            public void onDataReceived(String data) {
+                Toast.makeText(LocationUpdatesService.this, data, Toast.LENGTH_SHORT).show();
+            }
+        });
+        
         Log.i(TAG, "Requesting location updates");
         Utils.setRequestingLocationUpdates(this, true);
         startService(new Intent(getApplicationContext(), LocationUpdatesService.class));

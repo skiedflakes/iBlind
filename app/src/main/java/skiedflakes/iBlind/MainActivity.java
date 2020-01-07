@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity  implements
         if (!checkPermissions()) {
                     requestPermissions();
                 } else {
-                    mService.requestLocationUpdates();
+
+                    mService.requestLocationUpdates(bluetoothMC);
                 }
     }
     public void stop(){
@@ -254,7 +255,7 @@ public class MainActivity extends AppCompatActivity  implements
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission was granted.
-                mService.requestLocationUpdates();
+                mService.requestLocationUpdates(bluetoothMC);
             } else {
                 // Permission denied.
                 //setButtonsState(false);
@@ -281,8 +282,6 @@ public class MainActivity extends AppCompatActivity  implements
         }
     }
 
-
-
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         // Update the buttons state depending on whether location updates are being requested.
@@ -291,53 +290,18 @@ public class MainActivity extends AppCompatActivity  implements
             //        false));
         }
     }
+
     BluetoothMC bluetoothMC;
 
-    public void start_connection(){
+    public void openBT(){ Intent intent = new Intent(MainActivity.this, BluetoothDevices.class);
+        startActivityForResult(intent, BluetoothStates.REQUEST_CONNECT_DEVICE);}
 
-         bluetoothMC = new BluetoothMC();
-        if (! bluetoothMC.isBluetoothAvailable()) {
-            //do any action if the bluetooth is not available
-        }else if (! bluetoothMC.isBluetoothEnabled()) {
-            Toast.makeText(MainActivity.this, "Enabling Bluetooth", Toast.LENGTH_SHORT).show();
-            bluetoothMC.enableBluetooth();
-            Intent intent = new Intent(MainActivity.this, BluetoothDevices.class);
-            startActivityForResult(intent, BluetoothStates.REQUEST_CONNECT_DEVICE);
-        }
 
-        bluetoothMC.setOnBluetoothConnectionListener(new BluetoothMC.BluetoothConnectionListener() {
-            @Override
-            public void onDeviceConnecting() {
-                //this method triggered during the connection processes
-            }
-
-            @Override
-            public void onDeviceConnected() {
-                //this method triggered if the connection success
-                Log.e("device is connected","nc one");
-                bluetoothMC.send("1");
-            }
-
-            @Override
-            public void onDeviceDisconnected() {
-                //this method triggered if the device disconnected
-                Log.e("device is disconnected","sad");
-            }
-
-            @Override
-            public void onDeviceConnectionFailed() {
-                //this method triggered if the connection failed
-            }
-        });
-
-        bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
-            @Override
-            public void onDataReceived(String data) {
-                Toast.makeText(mService, data, Toast.LENGTH_SHORT).show();
-            }
-        });
+    public void start_connection(BluetoothMC bluetooth){
+        Log.e("status","start_connection");
+        bluetoothMC = bluetooth;
+        openBT();
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -346,8 +310,8 @@ public class MainActivity extends AppCompatActivity  implements
                 bluetoothMC.connect(data);
             }
         }
-
     }
+
 
 //    private void setButtonsState(boolean requestingLocationUpdates) {
 //        if (requestingLocationUpdates) {
