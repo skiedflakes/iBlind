@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
     private HomeViewModel homeViewModel;
-    Button btn_start,btn_stop,btn_logout;
+    Button btn_start,btn_stop,btn_logout,btn_sms;
     SessionManager session;
     String user_type;
 
@@ -42,6 +42,13 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        session = new SessionManager(getActivity());
+        session = new SessionManager(getActivity().getApplicationContext());
+        HashMap<String, String> user_account = session.getUserDetails();
+        user_type = user_account.get(SessionManager.KEY_USER_TYPE);
+
+
         final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -53,6 +60,14 @@ public class HomeFragment extends Fragment {
         btn_start = root.findViewById(R.id.btn_start);
         btn_stop = root.findViewById(R.id.btn_stop);
         btn_logout =  root.findViewById(R.id.btn_logout);
+        btn_sms =  root.findViewById(R.id.btn_sms);
+
+        btn_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).sendSMS();
+            }
+        });
 
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,10 +84,6 @@ public class HomeFragment extends Fragment {
         });
 
 
-        session = new SessionManager(getActivity());
-        session = new SessionManager(getActivity().getApplicationContext());
-        HashMap<String, String> user_account = session.getUserDetails();
-        user_type = user_account.get(SessionManager.KEY_USER_TYPE);
 
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override

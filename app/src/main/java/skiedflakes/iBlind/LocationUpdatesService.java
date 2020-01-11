@@ -355,9 +355,11 @@ public class LocationUpdatesService extends Service {
             }
 
            //save_location(user_id,Utils.convert_loc(location));
+            mLocation = location;
 
            // Log.e(TAG, "New distance: " + dist);
-            mLocation = location;
+            String update_sms = "http://maps.google.com/maps?daddr=" +  get_lat(location) + "," + get_lon(location) + " (" + "Current Loc" + ")";;
+            session.update_latest_location(update_sms);
         }catch (Exception e){
 
         }

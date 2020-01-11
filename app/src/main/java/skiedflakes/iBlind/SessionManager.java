@@ -35,7 +35,8 @@ public class SessionManager {
     public static final String KEY_NAME = "name";
     public static final String KEY_USER_ID = "user_id";
     public static final String KEY_USER_TYPE = "user_type";
-
+    public static final String KEY_latest_location = "latest_location";
+    public static final String KEY_sms_reciever = "sms_reciever";
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -57,6 +58,17 @@ public class SessionManager {
 
         editor.putString(KEY_USER_ID, user_id);
         // commit changes
+        editor.commit();
+    }
+
+    public void update_latest_location (String location){
+        // Storing login value as TRUE
+        editor.putString(KEY_latest_location, location);
+        editor.commit();
+    }
+
+    public void set_sms_reciever(String sms_reciever){
+        editor.putString(KEY_sms_reciever, sms_reciever);
         editor.commit();
     }
 
@@ -132,4 +144,13 @@ public class SessionManager {
     public boolean isLoggedIn(){
         return pref.getBoolean(IS_LOGIN, false);
     }
+
+    public String get_latest_location(){
+        return pref.getString(KEY_latest_location, null);
+    }
+
+    public String get_sms_reciever(){
+        return pref.getString(KEY_sms_reciever, null);
+    }
+
 }

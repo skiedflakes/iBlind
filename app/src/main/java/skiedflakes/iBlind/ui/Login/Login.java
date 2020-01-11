@@ -91,7 +91,8 @@ public class Login extends AppCompatActivity {
                     if(user_type.equals("1")||user_type.equals("2")||user_type.equals("0")){
 
                         session.createLoginSession(name,user_type,user_id);
-
+                        session.set_sms_reciever("");
+                        session.update_latest_location("");
                         Intent myIntent = new Intent(Login.this, MainActivity.class);
 
                         ActivityOptions options =

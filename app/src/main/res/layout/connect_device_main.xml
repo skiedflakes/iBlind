@@ -13,7 +13,8 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:text="Connect"
-       android:id="@+id/btn_connect"/>
+       android:id="@+id/btn_connect"
+        android:gravity="center"/>
 
         <TextView
             android:id="@+id/tv_status"
@@ -32,6 +33,20 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="20dp"/>
+
+        <EditText
+            android:id="@+id/et_receiver"
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="e.g 09456456456"
+            />
+        <Button
+            android:id="@+id/btn_send"
+            android:text="Send to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
 
 
     </LinearLayout>

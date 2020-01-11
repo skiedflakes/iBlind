@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity  implements
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     // The BroadcastReceiver used to listen from broadcasts from the service.
 
-
+    private final static int REQUEST_CODE_PERMISSION_SEND_SMS = 123;
 
     // A reference to the service used to get location updates.
     private LocationUpdatesService mService = null;
@@ -100,6 +102,13 @@ public class MainActivity extends AppCompatActivity  implements
             if (!checkPermissions()) {
                 requestPermissions();
             }
+        }
+
+        if(checkPermission(Manifest.permission.SEND_SMS)){
+
+        }else{
+            ActivityCompat.requestPermissions(MainActivity.this, new String[] {
+                    (Manifest.permission.SEND_SMS)}, REQUEST_CODE_PERMISSION_SEND_SMS);
         }
 
     }
@@ -176,6 +185,15 @@ public class MainActivity extends AppCompatActivity  implements
         // that since this activity is in the foreground, the service can exit foreground mode.
         bindService(new Intent(this, LocationUpdatesService.class), mServiceConnection,
                 Context.BIND_AUTO_CREATE);
+    }
+
+    public void sendSMS(){
+        String rec =  session.get_sms_reciever();
+        String updated_lcoation =  session.get_latest_location();
+        SmsManager smsMan =  SmsManager.getDefault();
+        smsMan.sendTextMessage(rec, null, updated_lcoation, null, null);
+        Toast.makeText(MainActivity.this,
+                "SMS send to " + "09665344508", Toast.LENGTH_LONG).show();
     }
 
 
@@ -279,6 +297,11 @@ public class MainActivity extends AppCompatActivity  implements
                         })
                         .show();
             }
+        }else if(requestCode == REQUEST_PERMISSIONS_REQUEST_CODE){
+            if(grantResults.length > 0 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            }
         }
     }
 
@@ -312,15 +335,10 @@ public class MainActivity extends AppCompatActivity  implements
         }
     }
 
+    private boolean checkPermission(String permission){
+        int checkPermission = ContextCompat.checkSelfPermission(this, permission);
+        return checkPermission == PackageManager.PERMISSION_GRANTED;
+    }
 
-//    private void setButtonsState(boolean requestingLocationUpdates) {
-//        if (requestingLocationUpdates) {
-//            btn_start.setEnabled(false);
-//            btn_stop.setEnabled(true);
-//        } else {
-//            btn_start.setEnabled(true);
-//            btn_stop.setEnabled(false);
-//        }
-//    }
 
 }
