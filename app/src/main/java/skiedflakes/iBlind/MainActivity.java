@@ -110,7 +110,6 @@ public class MainActivity extends AppCompatActivity  implements
             ActivityCompat.requestPermissions(MainActivity.this, new String[] {
                     (Manifest.permission.SEND_SMS)}, REQUEST_CODE_PERMISSION_SEND_SMS);
         }
-
     }
 
     String user_type;
@@ -191,9 +190,9 @@ public class MainActivity extends AppCompatActivity  implements
         String rec =  session.get_sms_reciever();
         String updated_lcoation =  session.get_latest_location();
         SmsManager smsMan =  SmsManager.getDefault();
-        smsMan.sendTextMessage(rec, null, updated_lcoation, null, null);
+        smsMan.sendTextMessage(rec, null, "test sms okay", null, null);
         Toast.makeText(MainActivity.this,
-                "SMS send to " + "09665344508", Toast.LENGTH_LONG).show();
+                "SMS send to " +rec, Toast.LENGTH_LONG).show();
     }
 
 
@@ -324,6 +323,9 @@ public class MainActivity extends AppCompatActivity  implements
         Log.e("status","start_connection");
         bluetoothMC = bluetooth;
         openBT();
+
+
+
     }
 
     @Override

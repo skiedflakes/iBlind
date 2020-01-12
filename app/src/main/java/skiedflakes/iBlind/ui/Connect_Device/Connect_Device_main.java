@@ -85,7 +85,7 @@ public class Connect_Device_main extends Fragment {
                     @Override
                     public void onDeviceConnected() {
                     tv_status.setText("Status: Connected...Sending con");
-                    bluetoothMC.send("con");
+                    bluetoothMC.send("1");
 
                     }
 
@@ -98,17 +98,6 @@ public class Connect_Device_main extends Fragment {
                     public void onDeviceConnectionFailed() {
                         //this method triggered if the connection failed
                         tv_status.setText("Status: Connection Failed Device . . .");
-                    }
-                });
-
-                bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
-                    @Override
-                    public void onDataReceived(String data) {
-                       tv_device.setText("Device: "+data);
-
-                       if(data.equals("1")){
-                           ((MainActivity)getActivity()).sendSMS();
-                       }
                     }
                 });
             }

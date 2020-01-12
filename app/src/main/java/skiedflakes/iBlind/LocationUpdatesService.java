@@ -19,6 +19,8 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -250,8 +252,8 @@ public class LocationUpdatesService extends Service {
         bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
             @Override
             public void onDataReceived(String data) {
-                Toast.makeText(LocationUpdatesService.this, data, Toast.LENGTH_SHORT).show();
-            }
+                sendSMS();
+        }
         });
         
         Log.i(TAG, "Requesting location updates");
@@ -473,4 +475,12 @@ public class LocationUpdatesService extends Service {
         AppController.getInstance().setVolleyDuration(stringRequest);
     }
 
+    public void sendSMS(){
+        String rec =  session.get_sms_reciever();
+        String updated_lcoation =  session.get_latest_location();
+        SmsManager smsMan =  SmsManager.getDefault();
+        smsMan.sendTextMessage(rec, null, updated_lcoation, null, null);
+        Toast.makeText(LocationUpdatesService.this,
+                "SMS send to " +rec, Toast.LENGTH_LONG).show();
+    }
 }
