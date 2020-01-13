@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity  implements
 
                     mService.requestLocationUpdates(bluetoothMC);
                 }
+
     }
     public void stop(){
         mService.removeLocationUpdates();
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity  implements
         String rec =  session.get_sms_reciever();
         String updated_lcoation =  session.get_latest_location();
         SmsManager smsMan =  SmsManager.getDefault();
-        smsMan.sendTextMessage(rec, null, "test sms okay", null, null);
+        smsMan.sendTextMessage(rec, null, "iBLIND: SMS status okay", null, null);
         Toast.makeText(MainActivity.this,
                 "SMS send to " +rec, Toast.LENGTH_LONG).show();
     }

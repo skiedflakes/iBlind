@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import skiedflakes.iBlind.AppController;
+import skiedflakes.iBlind.HttpsTrustManager;
 import skiedflakes.iBlind.R;
 
 public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
@@ -108,6 +109,7 @@ public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
     }
 
     public void plot_location(final String btn_status) {
+        HttpsTrustManager.allowAllSSL();
         mMap.clear();
 
         String URL = getString(R.string.URL)+"get_gps_logs.php";

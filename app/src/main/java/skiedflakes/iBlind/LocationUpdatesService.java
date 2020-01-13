@@ -255,6 +255,30 @@ public class LocationUpdatesService extends Service {
                 sendSMS();
         }
         });
+
+        bluetoothMC.setOnBluetoothConnectionListener(new BluetoothMC.BluetoothConnectionListener() {
+            @Override
+            public void onDeviceConnecting() {
+                //this method triggered during the connection processes
+
+
+            }
+
+            @Override
+            public void onDeviceConnected() {
+
+            }
+
+            @Override
+            public void onDeviceDisconnected() {
+                send_disconnected_SMS();
+            }
+
+            @Override
+            public void onDeviceConnectionFailed() {
+
+            }
+        });
         
         Log.i(TAG, "Requesting location updates");
         Utils.setRequestingLocationUpdates(this, true);
@@ -482,5 +506,14 @@ public class LocationUpdatesService extends Service {
         smsMan.sendTextMessage(rec, null, updated_lcoation, null, null);
         Toast.makeText(LocationUpdatesService.this,
                 "SMS send to " +rec, Toast.LENGTH_LONG).show();
+    }
+
+    public void send_disconnected_SMS(){
+        String rec =  session.get_sms_reciever();
+        String updated_lcoation =  session.get_latest_location();
+        SmsManager smsMan =  SmsManager.getDefault();
+        smsMan.sendTextMessage(rec, null, "iBlind: device disconnected.  "+updated_lcoation, null, null);
+        Toast.makeText(LocationUpdatesService.this,
+                "Device disconnected" +rec, Toast.LENGTH_LONG).show();
     }
 }

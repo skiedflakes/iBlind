@@ -27,7 +27,7 @@ import skiedflakes.iBlind.R;
 import skiedflakes.iBlind.SessionManager;
 
 public class Connect_Device_main extends Fragment {
-    Button btn_connect,btn_send;
+    Button btn_connect,btn_send,btn_check_sms;
     Globals globals;
     BluetoothMC bluetoothMC;
 
@@ -45,6 +45,7 @@ public class Connect_Device_main extends Fragment {
 
         tv_status =view.findViewById(R.id.tv_status);
         btn_send =view.findViewById(R.id.btn_send);
+        btn_check_sms =view.findViewById(R.id.btn_check_sms);
         et_receiver =view.findViewById(R.id.et_receiver);
 
 
@@ -55,6 +56,14 @@ public class Connect_Device_main extends Fragment {
         if (!reciv.equals("")){
             et_receiver.setText(reciv);
         }
+
+        btn_check_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).sendSMS();
+            }
+        });
+
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +72,7 @@ public class Connect_Device_main extends Fragment {
                 if(recev.equals("")){
                     Toast.makeText(getContext(), "Please fill up field", Toast.LENGTH_SHORT).show();
                 }else{
+                    Toast.makeText(getContext(), "Successfully saved number", Toast.LENGTH_SHORT).show();
                     session.set_sms_reciever(recev);
                 }
             }
@@ -84,7 +94,7 @@ public class Connect_Device_main extends Fragment {
 
                     @Override
                     public void onDeviceConnected() {
-                    tv_status.setText("Status: Connected...Sending con");
+                    tv_status.setText("Status: Connected...Sending 1");
                     bluetoothMC.send("1");
 
                     }
@@ -100,6 +110,17 @@ public class Connect_Device_main extends Fragment {
                         tv_status.setText("Status: Connection Failed Device . . .");
                     }
                 });
+
+                bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
+                    @Override
+                    public void onDataReceived(String data) {
+                       if(data.equals("con1")){
+                           tv_status.setText("Status: Device Successfully connected. . .");
+                       }
+                    }
+                });
+
+
             }
         });
         return view;

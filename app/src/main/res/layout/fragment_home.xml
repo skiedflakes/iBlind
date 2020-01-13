@@ -22,13 +22,9 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="send SMS"
-        android:id="@+id/btn_sms"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="logout"
         android:id="@+id/btn_logout"/>
+
 </LinearLayout>
     <TextView
         android:id="@+id/text_home"

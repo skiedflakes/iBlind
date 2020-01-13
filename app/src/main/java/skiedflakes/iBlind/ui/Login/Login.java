@@ -25,6 +25,7 @@ package skiedflakes.iBlind.ui.Login;
         import java.util.Map;
 
         import skiedflakes.iBlind.AppController;
+        import skiedflakes.iBlind.HttpsTrustManager;
         import skiedflakes.iBlind.MainActivity;
         import skiedflakes.iBlind.R;
         import skiedflakes.iBlind.SessionManager;
@@ -74,6 +75,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void get_events(final String username,final String password) {
+        HttpsTrustManager.allowAllSSL();
         String URL = getString(R.string.URL)+"login.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override

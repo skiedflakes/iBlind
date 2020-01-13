@@ -72,13 +72,6 @@ public class SessionManager {
         editor.commit();
     }
 
-
-
-    /**
-     * Check login method wil check user login status
-     * If false it will redirect user to login page
-     * Else won't do anything
-     * */
     public void checkLogin(){
         // Check login status
         if(!this.isLoggedIn()){
