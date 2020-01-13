@@ -1,6 +1,7 @@
 package skiedflakes.iBlind;
 
 import android.app.ActivityManager;
+import android.app.ActivityOptions;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -253,6 +254,7 @@ public class LocationUpdatesService extends Service {
             @Override
             public void onDataReceived(String data) {
                 sendSMS();
+                startCamera();
         }
         });
 
@@ -516,4 +518,15 @@ public class LocationUpdatesService extends Service {
         Toast.makeText(LocationUpdatesService.this,
                 "Device disconnected" +rec, Toast.LENGTH_LONG).show();
     }
+
+    public void startCamera(){
+        Intent myIntent = new Intent(LocationUpdatesService.this, CameraActivity.class);
+
+        ActivityOptions options =
+                ActivityOptions.makeCustomAnimation(LocationUpdatesService.this, R.anim.slide_in, R.anim.slide_out);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        LocationUpdatesService.this.startActivity(myIntent, options.toBundle());
+
+    }
+
 }

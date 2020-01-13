@@ -15,8 +15,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -41,6 +43,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.io.File;
 import java.util.HashMap;
 
 import skiedflakes.iBlind.ui.Login.Login;
@@ -331,6 +334,7 @@ public class MainActivity extends AppCompatActivity  implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == BluetoothStates.REQUEST_CONNECT_DEVICE) {
             if (resultCode == Activity.RESULT_OK) {
                 bluetoothMC.connect(data);
@@ -341,6 +345,16 @@ public class MainActivity extends AppCompatActivity  implements
     private boolean checkPermission(String permission){
         int checkPermission = ContextCompat.checkSelfPermission(this, permission);
         return checkPermission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void startCamera(){
+        Intent myIntent = new Intent(MainActivity.this, CameraActivity.class);
+
+        ActivityOptions options =
+                ActivityOptions.makeCustomAnimation(MainActivity.this, R.anim.slide_in, R.anim.slide_out);
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        MainActivity.this.startActivity(myIntent, options.toBundle());
+        finish();
     }
 
 

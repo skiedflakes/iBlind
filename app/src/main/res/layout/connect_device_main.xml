@@ -58,9 +58,15 @@
             />
 
         <Button
-
             android:id="@+id/btn_check_sms"
             android:text="Check Send SMS TO number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_marginTop="50dp"
+            android:id="@+id/btn_check_video"
+            android:text="Check Video Recording"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

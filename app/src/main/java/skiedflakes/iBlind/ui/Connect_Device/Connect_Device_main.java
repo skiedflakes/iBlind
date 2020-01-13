@@ -27,7 +27,7 @@ import skiedflakes.iBlind.R;
 import skiedflakes.iBlind.SessionManager;
 
 public class Connect_Device_main extends Fragment {
-    Button btn_connect,btn_send,btn_check_sms;
+    Button btn_connect,btn_send,btn_check_sms,btn_check_video;
     Globals globals;
     BluetoothMC bluetoothMC;
 
@@ -47,7 +47,7 @@ public class Connect_Device_main extends Fragment {
         btn_send =view.findViewById(R.id.btn_send);
         btn_check_sms =view.findViewById(R.id.btn_check_sms);
         et_receiver =view.findViewById(R.id.et_receiver);
-
+        btn_check_video=view.findViewById(R.id.btn_check_video);
 
         session = new SessionManager(getActivity());
         session = new SessionManager(getActivity().getApplicationContext());
@@ -57,10 +57,22 @@ public class Connect_Device_main extends Fragment {
             et_receiver.setText(reciv);
         }
 
+        btn_check_video.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).startCamera();
+            }
+        });
+
         btn_check_sms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).sendSMS();
+                if(et_receiver.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "Please fill up number", Toast.LENGTH_SHORT).show();
+                }{
+                    ((MainActivity)getActivity()).sendSMS();
+                }
+
             }
         });
 

@@ -4,8 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import java.io.File;
 import java.util.HashMap;
 
 import skiedflakes.iBlind.LocationUpdatesService;
@@ -98,7 +103,6 @@ public class HomeFragment extends Fragment {
             btn_stop.setVisibility(View.GONE);
         }
 
-
         return root;
     }
 
@@ -132,4 +136,5 @@ public class HomeFragment extends Fragment {
             }
         }
     }
+
 }
