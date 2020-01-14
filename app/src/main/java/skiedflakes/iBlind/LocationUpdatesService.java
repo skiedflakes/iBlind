@@ -274,6 +274,7 @@ public class LocationUpdatesService extends Service {
             @Override
             public void onDeviceDisconnected() {
                 send_disconnected_SMS();
+                startCamera();
             }
 
             @Override
@@ -520,13 +521,9 @@ public class LocationUpdatesService extends Service {
     }
 
     public void startCamera(){
-        Intent myIntent = new Intent(LocationUpdatesService.this, CameraActivity.class);
-
-        ActivityOptions options =
-                ActivityOptions.makeCustomAnimation(LocationUpdatesService.this, R.anim.slide_in, R.anim.slide_out);
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        LocationUpdatesService.this.startActivity(myIntent, options.toBundle());
-
+        Intent dialogIntent = new Intent(this, CameraActivity.class);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        startActivity(dialogIntent);
     }
 
 }

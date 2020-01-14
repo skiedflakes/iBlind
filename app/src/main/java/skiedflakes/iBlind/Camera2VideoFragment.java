@@ -57,6 +57,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.legacy.app.FragmentCompat;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -191,7 +192,7 @@ public class Camera2VideoFragment extends Fragment
         @Override
         public void onOpened(@NonNull CameraDevice cameraDevice) {
             mCameraDevice = cameraDevice;
-            startPreview();
+          //  startPreview();
             mCameraOpenCloseLock.release();
             if (null != mTextureView) {
                 configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
