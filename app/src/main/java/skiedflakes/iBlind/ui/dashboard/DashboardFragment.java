@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,8 +57,9 @@ public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
     private GoogleMap mMap;
     Fragment map_frag;
     static String selected_date="";
+    static TextView tv_date;
 
-    static Button btn_find,btn_date;
+    static LinearLayout btn_find,btn_date;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
@@ -65,9 +67,7 @@ public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
         btn_find = root.findViewById(R.id.btn_find);
         btn_date = root.findViewById(R.id.btn_date);
-
-
-
+        tv_date = root.findViewById(R.id.tv_date);
         btn_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -206,7 +206,7 @@ public class DashboardFragment extends Fragment  implements OnMapReadyCallback {
             String date = String.valueOf(year) + "-" + String.valueOf(formatter.format(month)) + "-" + String.valueOf(dayOfMonth);
             Toast.makeText(getContext(), date, Toast.LENGTH_SHORT).show();
             selected_date = date;
-            btn_date.setText(date);
+            tv_date.setText(date);
         }
     }
 }

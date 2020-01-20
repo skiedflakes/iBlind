@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,7 @@ import skiedflakes.iBlind.R;
 import skiedflakes.iBlind.SessionManager;
 
 public class Connect_Device_main extends Fragment {
-    Button btn_connect,btn_send,btn_check_sms,btn_check_video;
+    LinearLayout btn_connect,btn_send,btn_check_sms,btn_check_video;
     Globals globals;
     BluetoothMC bluetoothMC;
 
@@ -101,25 +102,27 @@ public class Connect_Device_main extends Fragment {
                     public void onDeviceConnecting() {
                         //this method triggered during the connection processes
                         Log.e("status","onDeviceConnecting");
-                        tv_status.setText("Status: Connecting Device . . .");
+                        tv_status.setText("Status: Device Connecting");
                     }
 
                     @Override
                     public void onDeviceConnected() {
-                    tv_status.setText("Status: Connected...Sending 1");
+                    tv_status.setText("Status: Device Connected");
                     bluetoothMC.send("1");
+
 
                     }
 
                     @Override
                     public void onDeviceDisconnected() {
-                        tv_status.setText("Status: Disconnected Device . . .");
+                        Log.e("status","onDeviceDisconnected");
+                        tv_status.setText("Status: Device Disconnected ");
                     }
 
                     @Override
                     public void onDeviceConnectionFailed() {
                         //this method triggered if the connection failed
-                        tv_status.setText("Status: Connection Failed Device . . .");
+                        tv_status.setText("Status: Device Connection Failed");
                     }
                 });
 
@@ -127,8 +130,37 @@ public class Connect_Device_main extends Fragment {
                     @Override
                     public void onDataReceived(String data) {
                        if(data.equals("con1")){
-                           tv_status.setText("Status: Device Successfully connected. . .");
+                           tv_status.setText("Status: Device Connected");
                        }
+                    }
+                });
+
+                //set listener to keep track the communication errors
+                bluetoothMC.setOnBluetoothErrorsListener(new BluetoothMC.BluetoothErrorsListener() {
+                    @Override
+                    public void onSendingFailed() {
+                        Log.e("status","onSendingFailed");
+                        //this method triggered if the app failed to send data
+                    }
+
+                    @Override
+                    public void onReceivingFailed() {
+                        Log.e("status","onReceivingFailed");
+                        //this method triggered if the app failed to receive data
+                        tv_status.setText("Status: Device Disconnected");
+                    }
+
+                    @Override
+                    public void onDisconnectingFailed() {
+                        Log.e("status","onDisconnectingFailed");
+                        //this method triggered if the app failed to disconnect to the bluetooth device
+                    }
+
+                    @Override
+                    public void onCommunicationFailed() {
+                        Log.e("status","onCommunicationFailed");
+                        //this method triggered if the app connect and unable to send and receive data
+                        //from the bluetooth device
                     }
                 });
 

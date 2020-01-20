@@ -248,51 +248,88 @@ public class LocationUpdatesService extends Service {
 
 
     public void requestLocationUpdates(BluetoothMC bluetooth) {
-        bluetoothMC = bluetooth;
+       try {
+           bluetoothMC = bluetooth;
 
-        bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
-            @Override
-            public void onDataReceived(String data) {
-                sendSMS();
-                startCamera();
-        }
-        });
+           bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
+               @Override
+               public void onDataReceived(String data) {
+                   sendSMS();
+                   startCamera();
+               }
+           });
 
-        bluetoothMC.setOnBluetoothConnectionListener(new BluetoothMC.BluetoothConnectionListener() {
-            @Override
-            public void onDeviceConnecting() {
-                //this method triggered during the connection processes
+           bluetoothMC.setOnBluetoothConnectionListener(new BluetoothMC.BluetoothConnectionListener() {
+               @Override
+               public void onDeviceConnecting() {
+                   //this method triggered during the connection processes
 
 
-            }
+               }
 
-            @Override
-            public void onDeviceConnected() {
+               @Override
+               public void onDeviceConnected() {
 
-            }
+               }
 
-            @Override
-            public void onDeviceDisconnected() {
-                send_disconnected_SMS();
-                startCamera();
-            }
+               @Override
+               public void onDeviceDisconnected() {
+                   send_disconnected_SMS();
+                   startCamera();
+               }
 
-            @Override
-            public void onDeviceConnectionFailed() {
+               @Override
+               public void onDeviceConnectionFailed() {
 
-            }
-        });
-        
-        Log.i(TAG, "Requesting location updates");
-        Utils.setRequestingLocationUpdates(this, true);
-        startService(new Intent(getApplicationContext(), LocationUpdatesService.class));
-        try {
-            mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                    mLocationCallback, Looper.myLooper());
-        } catch (SecurityException unlikely) {
-            Utils.setRequestingLocationUpdates(this, false);
-            Log.e(TAG, "Lost location permission. Could not request updates. " + unlikely);
-        }
+               }
+           });
+
+           //set listener to keep track the communication errors
+           bluetoothMC.setOnBluetoothErrorsListener(new BluetoothMC.BluetoothErrorsListener() {
+               @Override
+               public void onSendingFailed() {
+                   Log.e("status", "onSendingFailed");
+                   //this method triggered if the app failed to send data
+                   send_disconnected_SMS();
+                   startCamera();
+               }
+
+               @Override
+               public void onReceivingFailed() {
+                   Log.e("status", "onReceivingFailed");
+                   //this method triggered if the app failed to receive data
+                   send_disconnected_SMS();
+                   startCamera();
+               }
+
+               @Override
+               public void onDisconnectingFailed() {
+                   Log.e("status", "onDisconnectingFailed");
+                   //this method triggered if the app failed to disconnect to the bluetooth device
+               }
+
+               @Override
+               public void onCommunicationFailed() {
+                   Log.e("status", "onCommunicationFailed");
+                   //this method triggered if the app connect and unable to send and receive data
+                   //from the bluetooth device
+
+               }
+           });
+
+           Log.i(TAG, "Requesting location updates");
+           Utils.setRequestingLocationUpdates(this, true);
+           startService(new Intent(getApplicationContext(), LocationUpdatesService.class));
+           try {
+               mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                       mLocationCallback, Looper.myLooper());
+           } catch (SecurityException unlikely) {
+               Utils.setRequestingLocationUpdates(this, false);
+               Log.e(TAG, "Lost location permission. Could not request updates. " + unlikely);
+           }
+       }catch (Exception e){
+           Toast.makeText(this, "Something went wrong. Please connect device.", Toast.LENGTH_SHORT).show();
+       }
     }
 
     /**
@@ -331,15 +368,15 @@ public class LocationUpdatesService extends Service {
                 new Intent(this, MainActivity.class), 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .addAction(R.drawable.sched_icon, getString(R.string.launch_activity),
+                .addAction(R.drawable.start, getString(R.string.launch_activity),
                         activityPendingIntent)
-                .addAction(R.drawable.sched_icon, getString(R.string.remove_location_updates),
+                .addAction(R.drawable.stop, getString(R.string.remove_location_updates),
                         servicePendingIntent)
                 .setContentText(text)
                 .setContentTitle(Utils.getLocationTitle(this))
                 .setOngoing(true)
                 .setPriority(Notification.PRIORITY_HIGH)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.iblind_foreground)
                 .setTicker(text)
                 .setWhen(System.currentTimeMillis());
 
@@ -522,7 +559,7 @@ public class LocationUpdatesService extends Service {
 
     public void startCamera(){
         Intent dialogIntent = new Intent(this, CameraActivity.class);
-        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
 

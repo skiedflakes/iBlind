@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class HomeFragment extends Fragment {
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
     private HomeViewModel homeViewModel;
-    Button btn_start,btn_stop,btn_logout;
+    LinearLayout btn_start,btn_stop,btn_logout;
     SessionManager session;
     String user_type;
 

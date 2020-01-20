@@ -7,17 +7,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <Button
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#3A3A3A"
+            android:gravity="center"
             android:id="@+id/btn_date"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/date"
+                android:textColor="#ffff"
+                android:id="@+id/tv_date"
+                android:text="SELECT DATE"
+                android:drawablePadding="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="select date"/>
-        <Button
+            android:layout_height="50dp"
+            android:background="#3A3A3A"
+            android:gravity="center"
             android:id="@+id/btn_find"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Find"/>
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/search"
+                android:textColor="#ffff"
+                android:text="SEARCH"
+                android:drawablePadding="10dp"/>
+        </LinearLayout>
     </LinearLayout>
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"

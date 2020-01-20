@@ -191,12 +191,21 @@ public class MainActivity extends AppCompatActivity  implements
     }
 
     public void sendSMS(){
-        String rec =  session.get_sms_reciever();
-        String updated_lcoation =  session.get_latest_location();
-        SmsManager smsMan =  SmsManager.getDefault();
-        smsMan.sendTextMessage(rec, null, "iBLIND: SMS status okay", null, null);
-        Toast.makeText(MainActivity.this,
-                "SMS send to " +rec, Toast.LENGTH_LONG).show();
+
+
+          try{
+              String rec = session.get_sms_reciever();
+              SmsManager smsMan = SmsManager.getDefault();
+              smsMan.sendTextMessage(rec, null, "iBLIND: SMS status okay", null, null);
+              Toast.makeText(MainActivity.this,
+                      "SMS send to " + rec, Toast.LENGTH_LONG).show();
+          }catch (Exception e){
+              Toast.makeText(MainActivity.this, "Please set a valid contact number.", Toast.LENGTH_SHORT).show();
+          }
+
+
+
+
     }
 
 
