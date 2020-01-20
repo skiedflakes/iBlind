@@ -551,7 +551,6 @@ public class LocationUpdatesService extends Service {
             Toast.makeText(LocationUpdatesService.this,
                     "Something went wrong. Please check sms settings", Toast.LENGTH_LONG).show();
         }
-
     }
 
     public void send_disconnected_SMS(){
@@ -573,5 +572,4 @@ public class LocationUpdatesService extends Service {
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(dialogIntent);
     }
-
 }
