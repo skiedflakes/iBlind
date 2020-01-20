@@ -540,21 +540,32 @@ public class LocationUpdatesService extends Service {
     }
 
     public void sendSMS(){
-        String rec =  session.get_sms_reciever();
-        String updated_lcoation =  session.get_latest_location();
-        SmsManager smsMan =  SmsManager.getDefault();
-        smsMan.sendTextMessage(rec, null, updated_lcoation, null, null);
-        Toast.makeText(LocationUpdatesService.this,
-                "SMS send to " +rec, Toast.LENGTH_LONG).show();
+        try{
+            String rec =  session.get_sms_reciever();
+            String updated_lcoation =  session.get_latest_location();
+            SmsManager smsMan =  SmsManager.getDefault();
+            smsMan.sendTextMessage(rec, null, updated_lcoation, null, null);
+            Toast.makeText(LocationUpdatesService.this,
+                    "SMS send to " +rec, Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            Toast.makeText(LocationUpdatesService.this,
+                    "Something went wrong. Please check sms settings", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void send_disconnected_SMS(){
-        String rec =  session.get_sms_reciever();
-        String updated_lcoation =  session.get_latest_location();
-        SmsManager smsMan =  SmsManager.getDefault();
-        smsMan.sendTextMessage(rec, null, "iBlind: device disconnected.  "+updated_lcoation, null, null);
-        Toast.makeText(LocationUpdatesService.this,
-                "Device disconnected" +rec, Toast.LENGTH_LONG).show();
+        try {
+            String rec = session.get_sms_reciever();
+            String updated_lcoation = session.get_latest_location();
+            SmsManager smsMan = SmsManager.getDefault();
+            smsMan.sendTextMessage(rec, null, "iBlind: device disconnected.  " + updated_lcoation, null, null);
+            Toast.makeText(LocationUpdatesService.this,
+                    "Device disconnected" + rec, Toast.LENGTH_LONG).show();
+        }catch (Exception e){
+            Toast.makeText(LocationUpdatesService.this,
+                    "Something went wrong. Please check sms settings", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void startCamera(){
