@@ -10,10 +10,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +28,9 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 import skiedflakes.iBlind.LocationUpdatesService;
 import skiedflakes.iBlind.MainActivity;
@@ -41,8 +45,10 @@ public class HomeFragment extends Fragment {
     LinearLayout btn_start,btn_stop,btn_logout;
     SessionManager session;
     String user_type;
+    EditText et_N,et_value;
+    Button btn_test;
 
-
+    int N;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -67,6 +73,25 @@ public class HomeFragment extends Fragment {
         btn_stop = root.findViewById(R.id.btn_stop);
         btn_logout =  root.findViewById(R.id.btn_logout);
 
+//        btn_test = root.findViewById(R.id.btn_test);
+//        et_N =root.findViewById(R.id.et_N);
+//        et_value =root.findViewById(R.id.et_value);
+
+
+        btn_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+               N = Integer.valueOf(et_N.getText().toString());
+//                String final_answer = test2(N);
+//                et_value.setText(final_answer);
+
+                Log.e("array: ", "test: "+ Arrays.toString(test4(N)));
+             ;
+
+
+            }
+        });
 
         btn_stop.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,13 +107,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
 
                 ((MainActivity)getActivity()).stop();
                 ((MainActivity)getActivity()).logout();
@@ -107,6 +128,136 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    public String test2(int N){
+        String test_return="";
+        if(N>=1&N<=100){
+            for(int i=0;i<=N;i++){
+                if(i % 2==0){
+                    test_return = test_return+"-";
+                }
+                else{
+                    test_return = test_return+"+";
+                }
+
+            }
+            return test_return;
+
+        }else{
+            return "Error";
+        }
+    }
+
+    public void test3(int N){
+        int max = 100;
+        int min = 100;
+        Random r = new Random();
+        System.out.println("The ten random values are: ");
+        int[] values = new int[10];
+        for(int i = 0; i < 10; i++) {
+            int randomInteger = r.nextInt(100);
+
+            if(i==0){
+                values[i] = randomInteger;
+                System.out.print(" ," + randomInteger);
+            }else{ //check if integer has double
+
+                Boolean check_integer = check_integer(values,randomInteger);
+                if(check_integer){
+                    int randomInteger2 = r.nextInt(100);
+                    values[i] = randomInteger2;
+                    System.out.print(" ," + randomInteger2);
+                }else{
+                    values[i] = randomInteger;
+                    System.out.print(" ," + randomInteger);
+                }
+            }
+
+
+        }
+
+        int sum = 0;
+        for(int i : values) {
+            sum += i;
+        }
+    Log.e("test ", "test "+sum);
+    }
+
+    public boolean check_integer(int[] arr, int toCheckValue){
+
+        // sort given array
+        Arrays.sort(arr);
+
+        // check if the specified element
+        // is present in the array or not
+        // using Binary Search method
+        int res = Arrays.binarySearch(arr, toCheckValue);
+
+        boolean test = res > 0 ? true : false;
+
+        return test;
+    }
+
+    public  int[] test4(int N){
+
+        boolean isSumZero;
+        //do while
+        int max = 100;
+        int min = -100;
+        Random randy = new Random();
+        int[] readArray = new int[N];
+        do {
+
+            for (int i = 0; i < readArray.length; i++) {
+                int temp;
+                boolean isExists;
+                do {
+                    isExists = false;
+                    temp = randy.nextInt((max - min) + 1) + min;
+
+                    for (int j = 0; j < i; j++) {
+                        if (readArray[j] == temp) {
+                            isExists = true;
+                            break;
+                        }
+                    }
+                } while (isExists);
+                readArray[i] = temp;
+
+            }
+
+            int sum = 0;
+            for (int i : readArray) {
+                sum += i;
+            }
+
+            if (sum == 0) {
+                isSumZero = false;
+
+            } else {
+                isSumZero = true;
+
+            }
+        }while(isSumZero);
+
+
+        return readArray;
+    }
+
+    public int solution(int[] A) {
+        int ans = 0;
+        for (int i = 1; i < A.length; i++) {
+            if (ans > A[i]) {
+                ans = A[i];
+            }
+        }
+        return ans;
+    }
+
+
+    public static int generateRandomIntIntRange(int min, int max) {
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 
     @Override
     public void onPause() {

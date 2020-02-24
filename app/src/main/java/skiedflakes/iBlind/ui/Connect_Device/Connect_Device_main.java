@@ -3,6 +3,7 @@ package skiedflakes.iBlind.ui.Connect_Device;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -110,13 +111,14 @@ public class Connect_Device_main extends Fragment {
                     tv_status.setText("Status: Device Connected");
                     bluetoothMC.send("1");
 
-
                     }
 
                     @Override
                     public void onDeviceDisconnected() {
                         Log.e("status","onDeviceDisconnected");
                         tv_status.setText("Status: Device Disconnected ");
+                        MediaPlayer mediaPlayer= MediaPlayer.create(getActivity(),R.raw.btdisconnect);
+                        mediaPlayer.start();
                     }
 
                     @Override
@@ -129,8 +131,10 @@ public class Connect_Device_main extends Fragment {
                 bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
                     @Override
                     public void onDataReceived(String data) {
-                       if(data.equals("con1")){
+                       if(data.equals("1")){
                            tv_status.setText("Status: Device Connected");
+                           MediaPlayer mediaPlayer= MediaPlayer.create(getActivity(),R.raw.btconnect);
+                           mediaPlayer.start();
                        }
                     }
                 });
@@ -148,6 +152,8 @@ public class Connect_Device_main extends Fragment {
                         Log.e("status","onReceivingFailed");
                         //this method triggered if the app failed to receive data
                         tv_status.setText("Status: Device Disconnected");
+                        MediaPlayer mediaPlayer= MediaPlayer.create(getActivity(),R.raw.btdisconnect);
+                        mediaPlayer.start();
                     }
 
                     @Override

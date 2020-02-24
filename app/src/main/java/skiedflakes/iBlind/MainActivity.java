@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -46,6 +47,7 @@ import androidx.navigation.ui.NavigationUI;
 import java.io.File;
 import java.util.HashMap;
 
+import skiedflakes.iBlind.ui.Connect_Device.Connect_Device_main;
 import skiedflakes.iBlind.ui.Login.Login;
 
 
@@ -365,6 +367,8 @@ public class MainActivity extends AppCompatActivity  implements
         MainActivity.this.startActivity(myIntent, options.toBundle());
         finish();
     }
+
+
 
 
 }

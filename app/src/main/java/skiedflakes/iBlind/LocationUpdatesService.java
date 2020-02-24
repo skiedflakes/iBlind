@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -254,8 +255,20 @@ public class LocationUpdatesService extends Service {
            bluetoothMC.setOnDataReceivedListener(new BluetoothMC.onDataReceivedListener() {
                @Override
                public void onDataReceived(String data) {
-                   sendSMS();
-                   startCamera();
+                   if(data.equals("1")){
+                       sendSMS();
+                       startCamera();
+                   }else if(data.equals("2")){
+                       MediaPlayer mediaPlayer= MediaPlayer.create(getBaseContext(),R.raw.left);
+                       mediaPlayer.start();
+                   }else if(data.equals("3")){
+                       MediaPlayer mediaPlayer= MediaPlayer.create(getBaseContext(),R.raw.right);
+                       mediaPlayer.start();
+                   }else if(data.equals("4")){
+                       MediaPlayer mediaPlayer= MediaPlayer.create(getBaseContext(),R.raw.front);
+                       mediaPlayer.start();
+                   }
+
                }
            });
 
@@ -275,7 +288,7 @@ public class LocationUpdatesService extends Service {
                @Override
                public void onDeviceDisconnected() {
                    send_disconnected_SMS();
-                   startCamera();
+
                }
 
                @Override
@@ -441,6 +454,8 @@ public class LocationUpdatesService extends Service {
         }
     }
 
+    
+
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2, String unit)
     {
         double theta = lon1 - lon2;
@@ -555,6 +570,9 @@ public class LocationUpdatesService extends Service {
 
     public void send_disconnected_SMS(){
         try {
+            startCamera();
+            MediaPlayer mediaPlayer= MediaPlayer.create(getBaseContext(),R.raw.btdisconnect);
+            mediaPlayer.start();
             String rec = session.get_sms_reciever();
             String updated_lcoation = session.get_latest_location();
             SmsManager smsMan = SmsManager.getDefault();
