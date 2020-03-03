@@ -2,5 +2,6 @@
 
 features:</br>
 Android app - with Arduino hardware</br>
-Bluetooth Connection Android to arduino</br>
+Android Bluetooth Connection to Arduino</br>
 Sends sms</br>
+uses Service.java</br>
